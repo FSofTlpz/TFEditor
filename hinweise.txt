@@ -1,0 +1,143 @@
+MapTk
+
+Die gesamte Länge des Textes kann 125 Zeichen bei einer Sprache nicht überschreiten, 123 bei 2
+Sprachen, 121 bei 3 Sprachen, ...
+
+Polylines: beliebige Größe im Bereich bis max. 32x 32
+
+POI: feste Größe 32x32
+
+Polygon:  beliebige Größe im Bereich bis max. 32x 32 oder feste Farbe
+
+
+Diese Farben werden von Garmin für die selbst definierten POIs verwendet. Nur diese
+Farben werden mit dem graphischen Editor ausgewählt. Falls eine PRJ-Datei andere
+RGB-Werte enthält werden diese auf die nächste vergleichbare Farbe aus dieser Palette
+gerundet.
+Kombination ( 240 Farben )
+rot   grün  blau 
+00    00    00    
+39    30    20    
+7B    65    41    
+BD    95    6A    
+FF    CA    8B    
+      FF    B4    
+            D5    
+            FF    
+
+Grauwerte
+000000
+101010
+202020
+313131
+414141
+525252
+626262
+737373
+838383
+949494
+A4A4A4
+B4B4B4
+C5C5C5
+D5D5D5
+E6E6E6
+FFFFFF 
+
+
+MultiText: 
+   1 Byte Länge --> max 255
+   ABER: Länge ergibt sich aus unerfindlichen Gründen aus
+      2 * (Sprachbyte + Textelänge + 0-Byte) für jeden Text +
+      1 Byte für Länge
+--> max. Einzeltextlänge: (255 - 1 - 2) / 2 --> 126
+            2 * (t + 2) + 1 = 255
+                          t = (255 - 1) / 2 - 2
+                          t = 125 Zeichen
+--> max. Summe der Textlängen für n Sprachen:
+            2 * (t1 + 2) + ... 2 * (tn + 2) + 1 = 255
+            2 * (t1 + ... + tn) + n * 2 * 2 + 1 = 255
+                             2 * ts + 4 * n + 1 = 255
+                                             ts = (255 - 1 - 4 * n) / 2
+                                             ts = 127 - 2 * n Zeichen
+
+CustomColor
+max. 2 (Tag und Nacht);
+ohne Alpha;
+für Text;
+                                             
+Polygon:
+max. 4 Farben ohne Alpha; Bedeutung (Tag, Nacht) abhängig vom Typ;
+bei 2 Farben ist die 1. für den Vordergrund, die 2. für den Hintergrund (? wie sollte das def. sein);
+ExtOpt können gesetzt sein auch ohne Text und ohne CustomColors;
+Text kann auch leer sein;
+werden Bitmaps verwendet, können diese max. 2 Farben haben; wird nur eine Farbe def. ist die andere
+"transparent";
+Bitmaps sind immer (!) 32 x 32 Pixel groß;
+es gibt nur 1 (!) Bitmap, aber bei Bedarf mit verschiedenen Tag- und Nachtfarben;
+
+Linien
+Farben und Text analog Polygon;
+Bitmaps sind immer (!) 32 Pixel breit;
+für die Bitmaphöhe stehen 5 Bit zur Verfügung --> max. 31 Pixel;
+für die "Innenbreite" steht 1 Byte zur Verfügung --> max 255;
+für die "Gesamtbreite" steht 1 Byte zur Verfügung --> max 255; (Rand = Gesamtbreite - 2 * Innenbreite)
+Linientypen im Bereich 0x40..0xff haben wohl eine spezielle Bedeutung (Einbahnstr. u.ä.);
+Linientypen > 0xff haben auch eine spezielle Bedeutung
+
+POI
+Breite und Länge jeweils in einem Byte --> max. 255 x 255 Pixel;
+Mode 0x20: Farben mit Alphaanteil
+Mode 0x20, 0x10: transparenter Bereich möglich
+Mode 0x00: keine Transparenz
+Farbanzahl 0 bedeutet: für jedes Pixel ist direkt die Farbe gespeichert (3 oder 4 Byte?)
+      --> sehr viel mehr Speicher nötig
+
+
+      
+neues Format wohl nur für POI's
+
+
+
+B40
+00 00 00 00 00 00 00 00 00 00 00 00 00#FE#02 12 
+53 54 41 56 45 4E 49 8A 54 45 00 03 43 4F 4E 53 
+54 52 55 43 54 49 45 5A 4F 4E 45 53 00 01 43 48 
+41 4E 54 49 45 52 53 00 02 42 41 55 53 54 45 4C 
+4C 45 4E 00 14 C9 50 CD 54 C9 53 49 20 4D 55 4E 
+4B 41 48 45 4C 59 45 4B 00 05 43 41 4E 54 49 45 
+52 49 00 1B 43 45 4C 54 4E 49 45 43 3F 42 41 53 
+20 4C 41 55 4B 55 4D 49 00 15 42 55 44 4F 57 59 
+00 10 C1 52 45 41 53 20 45 4D 20 43 4F 4E 53 54 
+52 55 C7 C3 4F 00 08 5A 4F 4E 41 53 20 45 4E 20
+43 4F 4E 53 54 52 55 43 43 49 D3 4E 00 07 42 59
+47 47 50 4C 41 54 53 45 52 00 00 43 4F 4E 53 54 
+52 55 43 54 49 4F 4E 20 53 49 54 45 53 00_02 38 
+12xText
+191 Zeichen
+191*4=764=0x2FC + 2 Byte für Länge
+
+34a0
+05 00 B4 00 82 20 10 04#52#02 01 44 C9 4D 41 52 
+43 41 54 49 4F 4E 20 52 C9 47 49 4F 4E 45 20 50 
+52 4F 54 45 43 54 49 4F 4E 20 4E 41 54 55 52 45 
+00 02 53 43 48 55 54 5A 47 45 42 49 45 54 53 47 
+52 45 4E 5A 45 00 05 43 4F 4E 46 49 4E 45 20 41 
+52 45 41 20 50 52 4F 54 45 54 54 41 00 08 44 45 
+4D 41 52 43 41 43 49 D3 4E 20 52 45 47 49 D3 4E 
+20 50 52 4F 54 45 43 43 49 D3 4E 20 4E 41 54 55 
+52 41 4C 45 5A 41 00 00 42 4F 52 44 45 52 20 50 
+52 4F 54 45 43 54 45 44 20 41 52 45 41 00_02 16
+5xText
+148 Zeichen
+148*4=592=0x250 + 2 Byte für Länge
+
+00 00 00 00 00 02 36 00 30 C8#BB#01 C9 44 49 46 
+49 43 45 53 20 50 55 42 4C 49 43 00 02 D6 46 46 
+45 4E 54 4C 49 43 48 45 53 20 47 45 42 C4 55 44 
+45 00 05 45 44 49 46 49 43 49 4F 20 50 55 42 42 
+4C 49 43 4F 00 08 45 44 49 46 49 43 49 4F 20 50 
+55 42 4C 49 43 4F 00 00 50 55 42 4C 49 43 20 42 
+55 49 4C 44 49 4E 47 00_02 3E D8 DC D8 00 00 00
+93 Zeichen
+93*2=186=0xBA + 1 Byte für Länge
+
