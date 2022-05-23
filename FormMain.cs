@@ -59,18 +59,6 @@ namespace TFEditor {
       View ViewStatus = View.Details;
 
       /// <summary>
-      /// Vergrößerung für die Flächendarstellung in der PictureBox
-      /// </summary>
-      int iScale4Area = 1;
-      /// <summary>
-      /// Vergrößerung für die Liniendarstellung in der PictureBox
-      /// </summary>
-      int iScale4Line = 5;
-      /// <summary>
-      /// Vergrößerung für die Punktdarstellung in der PictureBox
-      /// </summary>
-      int iScale4Point = 5;
-      /// <summary>
       /// bevorzugte, d.h. angezeigte Sprache
       /// </summary>
       Text.LanguageCode PreferredLanguage = GarminCore.Files.Typ.Text.LanguageCode.german;
@@ -127,7 +115,7 @@ namespace TFEditor {
       /// <summary>
       /// Zuordnung Polygontyp - Bezeichnug
       /// </summary>
-      SortedList<Polygone.PolygonType, string> AreaTypName = new SortedList<Polygone.PolygonType, string>();
+      SortedList<Polygone.ColorType, string> AreaTypName = new SortedList<Polygone.ColorType, string>();
       /// <summary>
       /// Zuordnung Linientyp - Bezeichnug
       /// </summary>
@@ -148,15 +136,15 @@ namespace TFEditor {
 
       #region Definition der Verknüpfung einiger Listen mit Typefile-Eigenschaften
 
-      Polygone.PolygonType[] data4ListboxAreaTyp = new Polygone.PolygonType[] {
-         Polygone.PolygonType.Day1,
-         Polygone.PolygonType.Day1_Night1,
-         Polygone.PolygonType.BM_Day1,
-         Polygone.PolygonType.BM_Day2,
-         Polygone.PolygonType.BM_Day2_Night2,
-         Polygone.PolygonType.BM_Day1_Night2,
-         Polygone.PolygonType.BM_Day2_Night1,
-         Polygone.PolygonType.BM_Day1_Night1
+      Polygone.ColorType[] data4ListboxAreaTyp = new Polygone.ColorType[] {
+         Polygone.ColorType.Day1,
+         Polygone.ColorType.Day1_Night1,
+         Polygone.ColorType.BM_Day1,
+         Polygone.ColorType.BM_Day2,
+         Polygone.ColorType.BM_Day2_Night2,
+         Polygone.ColorType.BM_Day1_Night2,
+         Polygone.ColorType.BM_Day2_Night1,
+         Polygone.ColorType.BM_Day1_Night1
       };
 
       Polyline.PolylineType[] data4ListboxLineTyp = new Polyline.PolylineType[] {
@@ -169,10 +157,10 @@ namespace TFEditor {
       };
 
       GraphicElement.Fontdata[] data4ListboxFont = new GraphicElement.Fontdata[] {
-         GraphicElement.Fontdata.Default, 
-         GraphicElement.Fontdata.Normal, 
-         GraphicElement.Fontdata.Small, 
-         GraphicElement.Fontdata.Large, 
+         GraphicElement.Fontdata.Default,
+         GraphicElement.Fontdata.Normal,
+         GraphicElement.Fontdata.Small,
+         GraphicElement.Fontdata.Large,
          GraphicElement.Fontdata.Nolabel
       };
 
@@ -185,17 +173,20 @@ namespace TFEditor {
 
       #endregion
 
+      List<string> LastFiles = new List<string>();
+
+
       public FormMain(string[] args) {
          InitializeComponent();
 
-         AreaTypName.Add(Polygone.PolygonType.Day1, "1 Tagesfarbe");
-         AreaTypName.Add(Polygone.PolygonType.BM_Day1, "Bild mit 1 Tagesfarbe");
-         AreaTypName.Add(Polygone.PolygonType.BM_Day2, "Bild mit 2 Tagesfarben");
-         AreaTypName.Add(Polygone.PolygonType.Day1_Night1, "1 Tagesfarbe, 1 Nachtfarbe");
-         AreaTypName.Add(Polygone.PolygonType.BM_Day2_Night2, "Bild mit 2 Tages- und Bild mit 2 Nachtfarben");
-         AreaTypName.Add(Polygone.PolygonType.BM_Day1_Night2, "Bild mit 1 Tages- und Bild mit 2 Nachtfarben");
-         AreaTypName.Add(Polygone.PolygonType.BM_Day2_Night1, "Bild mit 2 Tages- und Bild mit 1 Nachtfarbe");
-         AreaTypName.Add(Polygone.PolygonType.BM_Day1_Night1, "Bild mit 1 Tages- und Bild mit 1 Nachtfarbe");
+         AreaTypName.Add(Polygone.ColorType.Day1, "1 Tagesfarbe");
+         AreaTypName.Add(Polygone.ColorType.BM_Day1, "Bild mit 1 Tagesfarbe");
+         AreaTypName.Add(Polygone.ColorType.BM_Day2, "Bild mit 2 Tagesfarben");
+         AreaTypName.Add(Polygone.ColorType.Day1_Night1, "1 Tagesfarbe, 1 Nachtfarbe");
+         AreaTypName.Add(Polygone.ColorType.BM_Day2_Night2, "Bild mit 2 Tages- und Bild mit 2 Nachtfarben");
+         AreaTypName.Add(Polygone.ColorType.BM_Day1_Night2, "Bild mit 1 Tages- und Bild mit 2 Nachtfarben");
+         AreaTypName.Add(Polygone.ColorType.BM_Day2_Night1, "Bild mit 2 Tages- und Bild mit 1 Nachtfarbe");
+         AreaTypName.Add(Polygone.ColorType.BM_Day1_Night1, "Bild mit 1 Tages- und Bild mit 1 Nachtfarbe");
 
          LineTypName.Add(Polyline.PolylineType.Day2, "2 Tagesfarben");
          LineTypName.Add(Polyline.PolylineType.NoBorder_Day1, "1 Tagesfarbe, ohne Rand");
@@ -303,7 +294,11 @@ namespace TFEditor {
                it.Checked = true;
          }
          ToolStripMenuItemExtraGarmincolor.Checked = bPoiWithGarminColor;
+
          tf = new StdFile_TYP();
+
+         ClearAll();
+         SetTypefileStatus(false);
 
 #if DEBUG
 
@@ -314,14 +309,12 @@ namespace TFEditor {
          //LoadTypefile("..\\Typefiles\\Transalpin_v2.TYP");
          //LoadTypefile("..\\Typefiles\\teddy.typ");
          //LoadTypefile("..\\Typefiles\\italien.typ");
-         LoadTypefile("x.typ");
+         LoadTypefile("..\\..\\fsoft3.TYP");
 
 #endif
+
          if (sStartTypfilename != null && sStartTypfilename.Length > 0)
             LoadTypefile(sStartTypfilename);
-
-         ShowAllData4GraphicElement(null);
-         SetTypefileStatus(false);
       }
 
       private void FormMain_FormClosing(object sender, FormClosingEventArgs e) {
@@ -331,12 +324,24 @@ namespace TFEditor {
                e.Cancel = true;
       }
 
+      void ClearAll() {
+         listViewArea.Items.Clear();
+         listViewLine.Items.Clear();
+         listViewPoint.Items.Clear();
+         DiableDataControls4Polygones();
+         DiableDataControls4Polylines();
+         DiableDataControls4Points();
+         DiableDataControls4Text();
+      }
+
       private void LoadTypefile(string file) {
          if (bTFChanged)
             if (MessageBox.Show("Wollen sie die aktuellen Daten erst speichern?", "ACHTUNG",
                                 MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                return;
          try {
+            ShowAllData4GraphicElement(null);
+            SetTypefileStatus(false);
             using (BinaryReaderWriter br = new BinaryReaderWriter(file, true)) {
                tf = new StdFile_TYP(br, true);
                if (tf.RelaxedModeErrors.Length > 0)
@@ -355,6 +360,9 @@ namespace TFEditor {
             FillListviews();
             SetListviewStatus(ViewStatus);
             SetTypefileStatus(false);
+
+            AddLastfile(file);
+
          } catch (Exception ex) {
             MessageBox.Show("Fehler beim Öffnen der Datei: " + openFileDialog1.FileName + System.Environment.NewLine +
                             System.Environment.NewLine +
@@ -406,6 +414,7 @@ namespace TFEditor {
          tf = new StdFile_TYP();
          sTypfilename = "";
          this.Text = sProgname;
+         ClearAll();
          FillListviews();
          SetListviewStatus(ViewStatus);
          SetTypefileStatus(false);
@@ -442,6 +451,7 @@ namespace TFEditor {
                }
                sTypfilename = saveFileDialog1.FileName;
                this.Text = sProgname + " - " + sTypfilename;
+               AddLastfile(saveFileDialog1.FileName);
             } catch (Exception ex) {
                MessageBox.Show("Fehler beim Speichern der Datei: " + saveFileDialog1.FileName + System.Environment.NewLine +
                                System.Environment.NewLine +
@@ -490,11 +500,11 @@ namespace TFEditor {
                   for (int i = 0; i < lv.Items.Count; i++) {
                      ListViewItem lvi = lv.Items[i];
                      GraphicElement ge = (GraphicElement)lvi.Tag;
-                     string sFilename = string.Format("{0}_0x{1:x3}{2:x2}_T.{3}", sPrefix, ge.Typ, ge.Subtyp, sExtension);
+                     string sFilename = string.Format("{0}_0x{1:x3}{2:x2}_T.{3}", sPrefix, ge.Type, ge.Subtype, sExtension);
                      Bitmap bm = ge.AsBitmap(true, true);
                      bm.Save(Path.Combine(sDirectory, sFilename), ifmt);
                      if (ge.WithNightBitmap) {
-                        sFilename = string.Format("{0}_0x{1:x3}{2:x2}_N.{3}", sPrefix, ge.Typ, ge.Subtyp, sExtension);
+                        sFilename = string.Format("{0}_0x{1:x3}{2:x2}_N.{3}", sPrefix, ge.Type, ge.Subtype, sExtension);
                         bm = ge.AsBitmap(false, true);
                         bm.Save(Path.Combine(sDirectory, sFilename), ifmt);
                      }
@@ -673,8 +683,8 @@ namespace TFEditor {
          GraphicElement ge = lvi != null ? (GraphicElement)lvi.Tag : null;
          uint typ = 0, subtyp = 0;
          if (ge != null) {
-            typ = ge.Typ;
-            subtyp = ge.Subtyp;
+            typ = ge.Type;
+            subtyp = ge.Subtype;
          } else
             bAsCopy = false;
 
@@ -756,8 +766,8 @@ namespace TFEditor {
                                    "Achtung",
                                    MessageBoxButtons.YesNo,
                                    MessageBoxIcon.Question) == DialogResult.Yes) {
-                  uint typ = ge.Typ;
-                  uint subtyp = ge.Subtyp;
+                  uint typ = ge.Type;
+                  uint subtyp = ge.Subtype;
                   if (ge is Polygone) tf.RemovePolygone(typ, subtyp);
                   if (ge is Polyline) tf.RemovePolyline(typ, subtyp);
                   if (ge is POI) tf.RemovePoi(typ, subtyp);
@@ -769,7 +779,7 @@ namespace TFEditor {
                      lv.Items[idx].Selected = true;
                   else
                      if (lv.Items.Count > 0)
-                        lv.Items[lv.Items.Count - 1].Selected = true;
+                     lv.Items[lv.Items.Count - 1].Selected = true;
 
                   SetTypefileStatus(true);
                }
@@ -818,6 +828,24 @@ namespace TFEditor {
          SetGraphicElementColor(false, pictureBoxAreaDay == GetPictureBox4ToolStripMenuItem((ToolStripMenuItem)sender));
       }
 
+      private void ToolStripMenuItemAreaColor1Transparent_Click(object sender, EventArgs e) {
+         PictureBox pb = GetPictureBox4ToolStripMenuItem((ToolStripMenuItem)sender);
+         if (pb != null) {
+            if (pb == pictureBoxAreaDay ||
+                pb == pictureBoxAreaNight) {
+               GraphicElement ge = GetSelectedAndActiveGraphicElement();
+               if (ge != null) {
+                  bool bIsDayColor = pictureBoxAreaDay == pb;
+                  if (bIsDayColor)
+                     ge.DayColor1 = Color.Transparent;
+                  else
+                     ge.NightColor1 = Color.Transparent;
+                  ShowSelectedGraphicElementWithNewProps();
+               }
+            }
+         }
+      }
+
       private void ToolStripMenuAreaColorSwap_Click(object sender, EventArgs e) {
          Polygone p = GetSelectedPolygone();
          if (p != null) {
@@ -845,7 +873,7 @@ namespace TFEditor {
             }
             try {
                if (p != null) {
-                  p.SetBitmaps(p.Polygontype, bDayPictureBox ? bm : p.AsBitmap(true, true), bDayPictureBox ? p.AsBitmap(false, true) : bm);
+                  p.SetBitmaps(p.Colortype, bDayPictureBox ? bm : p.AsBitmap(true, true), bDayPictureBox ? p.AsBitmap(false, true) : bm);
                   ShowSelectedGraphicElementWithNewProps();
                }
             } catch (Exception ex) {
@@ -860,66 +888,79 @@ namespace TFEditor {
             bool bDayPictureBox = pictureBoxAreaDay == GetPictureBox4ContextMenu((ContextMenuStrip)sender);
             foreach (ToolStripItem item in cm.Items)
                item.Enabled = false;
+
             if (listViewArea.SelectedItems.Count > 0) {
                ListViewItem lvi = listViewArea.SelectedItems[0];
                Polygone p = (Polygone)lvi.Tag;
+
                Bitmap bm = new Bitmap(10, 10);
                Graphics canvas = Graphics.FromImage(bm);
                canvas.Clear(bDayPictureBox ? p.DayColor1 : p.NightColor1);
                canvas.Flush();
                ToolStripMenuItemAreaColor1.Image = bm;
+
                bm = new Bitmap(10, 10);
                canvas = Graphics.FromImage(bm);
                canvas.Clear(bDayPictureBox ? p.DayColor2 : p.NightColor2);
                canvas.Flush();
                ToolStripMenuItemAreaColor2.Image = bm;
-               switch (p.Polygontype) {
-                  case Polygone.PolygonType.Day1:
-                     if (bDayPictureBox)
+
+               switch (p.Colortype) {
+                  case Polygone.ColorType.Day1:
+                     if (bDayPictureBox) {
                         ToolStripMenuItemAreaColor1.Enabled =
                         ToolStripMenuItemAreaCopy.Enabled = true;
+                        ToolStripMenuItemAreaColor1Transparent.Enabled = true;
+                     }
                      break;
 
-                  case Polygone.PolygonType.Day1_Night1:
+                  case Polygone.ColorType.Day1_Night1:
                      ToolStripMenuItemAreaColor1.Enabled =
                      ToolStripMenuItemAreaCopy.Enabled = true;
+                     ToolStripMenuItemAreaColor1Transparent.Enabled = true;
                      break;
 
-                  case Polygone.PolygonType.BM_Day1:
+                  case Polygone.ColorType.BM_Day1:
                      if (bDayPictureBox) {
                         ToolStripMenuItemAreaColor1.Enabled =
                         ToolStripMenuItemAreaColorSwap.Enabled =
                         ToolStripMenuItemAreaCopy.Enabled = true;
                         ToolStripMenuItemAreaInsert.Enabled = Clipboard.ContainsImage();
+                        ToolStripMenuItemAreaColor1Transparent.Enabled = true;
                      }
                      break;
 
-                  case Polygone.PolygonType.BM_Day1_Night2:
+                  case Polygone.ColorType.BM_Day1_Night2:
                      ToolStripMenuItemAreaColor1.Enabled =
                      ToolStripMenuItemAreaColorSwap.Enabled =
                      ToolStripMenuItemAreaCopy.Enabled = true;
                      ToolStripMenuItemAreaInsert.Enabled = Clipboard.ContainsImage();
-                     if (!bDayPictureBox)
+                     if (bDayPictureBox)
+                        ToolStripMenuItemAreaColor1Transparent.Enabled = true;
+                     else
                         ToolStripMenuItemAreaColor2.Enabled = true;
                      break;
 
-                  case Polygone.PolygonType.BM_Day1_Night1:
+                  case Polygone.ColorType.BM_Day1_Night1:
                      ToolStripMenuItemAreaColor1.Enabled =
                      ToolStripMenuItemAreaColorSwap.Enabled =
                      ToolStripMenuItemAreaCopy.Enabled = true;
                      ToolStripMenuItemAreaInsert.Enabled = Clipboard.ContainsImage();
+                     ToolStripMenuItemAreaColor1Transparent.Enabled = true;
                      break;
 
-                  case Polygone.PolygonType.BM_Day2_Night1:
+                  case Polygone.ColorType.BM_Day2_Night1:
                      ToolStripMenuItemAreaColor1.Enabled =
                      ToolStripMenuItemAreaColorSwap.Enabled =
                      ToolStripMenuItemAreaCopy.Enabled = true;
                      ToolStripMenuItemAreaInsert.Enabled = Clipboard.ContainsImage();
                      if (bDayPictureBox)
                         ToolStripMenuItemAreaColor2.Enabled = true;
+                     else
+                        ToolStripMenuItemAreaColor1Transparent.Enabled = true;
                      break;
 
-                  case Polygone.PolygonType.BM_Day2:
+                  case Polygone.ColorType.BM_Day2:
                      if (bDayPictureBox) {
                         ToolStripMenuItemAreaColor1.Enabled =
                         ToolStripMenuItemAreaColor2.Enabled =
@@ -929,7 +970,7 @@ namespace TFEditor {
                      }
                      break;
 
-                  case Polygone.PolygonType.BM_Day2_Night2:
+                  case Polygone.ColorType.BM_Day2_Night2:
                      ToolStripMenuItemAreaColor1.Enabled =
                      ToolStripMenuItemAreaColor2.Enabled =
                      ToolStripMenuItemAreaColorSwap.Enabled =
@@ -951,8 +992,8 @@ namespace TFEditor {
 
       private void listBoxAreaTyp_SelectedIndexChanged(object sender, EventArgs e) {
          Polygone p = GetSelectedPolygone();
-         if (p != null && p.Polygontype != data4ListboxAreaTyp[listBoxAreaTyp.SelectedIndex]) {
-            p.Polygontype = data4ListboxAreaTyp[listBoxAreaTyp.SelectedIndex];
+         if (p != null && p.Colortype != data4ListboxAreaTyp[listBoxAreaTyp.SelectedIndex]) {
+            p.Colortype = data4ListboxAreaTyp[listBoxAreaTyp.SelectedIndex];
             ShowSelectedGraphicElementWithNewProps();
          }
       }
@@ -980,14 +1021,7 @@ namespace TFEditor {
       /// <param name="org"></param>
       private void ShowAreaInPicturebox(PictureBox pb, Bitmap org) {
          if (org != null && org.Height > 0) {
-            Bitmap bm = StretchBitmap(org, iScale4Area);
-            Bitmap bmdest = new Bitmap(pb.ClientSize.Width, pb.ClientSize.Height);
-            Graphics canvas = Graphics.FromImage(bmdest);
-            for (int x = 0; x < bmdest.Width; x += bm.Width)
-               for (int y = 0; y < bmdest.Height; y += bm.Height)
-                  canvas.DrawImageUnscaled(bm, x, y);
-            canvas.Flush();
-            pb.Image = bmdest;
+            pb.Image = org;
          } else
             pb.Image = null;
       }
@@ -1004,6 +1038,24 @@ namespace TFEditor {
 
       private void ToolStripMenuItemLineColor2_Click(object sender, EventArgs e) {
          SetGraphicElementColor(false, pictureBoxLineDay == GetPictureBox4ToolStripMenuItem((ToolStripMenuItem)sender));
+      }
+
+      private void ToolStripMenuItemLineColor1Transparent_Click(object sender, EventArgs e) {
+         PictureBox pb = GetPictureBox4ToolStripMenuItem((ToolStripMenuItem)sender);
+         if (pb != null) {
+            if (pb == pictureBoxLineDay ||
+                pb == pictureBoxLineNight) {
+               GraphicElement ge = GetSelectedAndActiveGraphicElement();
+               if (ge != null) {
+                  bool bIsDayColor = pictureBoxLineDay == pb;
+                  if (bIsDayColor)
+                     ge.DayColor1 = Color.Transparent;
+                  else
+                     ge.NightColor1 = Color.Transparent;
+                  ShowSelectedGraphicElementWithNewProps();
+               }
+            }
+         }
       }
 
       private void ToolStripMenuItemLineColorSwap_Click(object sender, EventArgs e) {
@@ -1044,9 +1096,10 @@ namespace TFEditor {
       private void contextMenuStripLine_Opening(object sender, CancelEventArgs e) {
          ContextMenuStrip cm = (ContextMenuStrip)sender;
          if (cm.SourceControl != null && cm.SourceControl is PictureBox) {
-            bool bDayPictureBox = pictureBoxLineDay == GetPictureBox4ContextMenu((ContextMenuStrip)sender);
+            bool bDayPictureBox = pictureBoxLineDay == GetPictureBox4ContextMenu(cm);
             foreach (ToolStripItem item in cm.Items)
                item.Enabled = false;
+
             if (listViewLine.SelectedItems.Count > 0) {
                ListViewItem lvi = listViewLine.SelectedItems[0];
                Polyline p = (Polyline)lvi.Tag;
@@ -1056,6 +1109,7 @@ namespace TFEditor {
                canvas.Clear(bDayPictureBox ? p.DayColor1 : p.NightColor1);
                canvas.Flush();
                ToolStripMenuItemLineColor1.Image = bm;
+
                bm = new Bitmap(10, 10);
                canvas = Graphics.FromImage(bm);
                canvas.Clear(bDayPictureBox ? p.DayColor2 : p.NightColor2);
@@ -1081,6 +1135,7 @@ namespace TFEditor {
                         ToolStripMenuItemLineInsert.Enabled = true;
                         if (p.WithDayBitmap)
                            ToolStripMenuItemLineColorSwap.Enabled = true;
+                        ToolStripMenuItemLineColor1Transparent.Enabled = true;
                         break;
                   }
                } else
@@ -1094,6 +1149,7 @@ namespace TFEditor {
                         ToolStripMenuItemLineInsert.Enabled = true;
                         if (p.WithDayBitmap)
                            ToolStripMenuItemLineColorSwap.Enabled = true;
+                        ToolStripMenuItemLineColor1Transparent.Enabled = true;
                         break;
                      case Polyline.PolylineType.Day2_Night2:
                      case Polyline.PolylineType.Day1_Night2:
@@ -1179,7 +1235,8 @@ namespace TFEditor {
       private void checkBoxLineTextRotation_CheckedChanged(object sender, EventArgs e) {
          if (IsControlValueSettingsValidatedOn((Control)sender)) {
             Polyline p = GetSelectedAndActiveGraphicElement() as Polyline;
-            p.WithTextRotation = ((CheckBox)sender).Checked;
+            if (p != null)
+               p.WithTextRotation = ((CheckBox)sender).Checked;
             ShowSelectedGraphicElementWithNewProps();
          }
       }
@@ -1208,7 +1265,8 @@ namespace TFEditor {
                numericUpDownLineHeight.Enabled =
                numericUpDownLineBorder.Enabled = true;
                Polyline p = GetSelectedAndActiveGraphicElement() as Polyline;
-               p.SetWidthAndColors(Polyline.PolylineType.Day2, p.BitmapHeight, 0);
+               if (p != null)
+                  p.SetWidthAndColors(Polyline.PolylineType.Day2, p.BitmapHeight, 0);
                ShowSelectedGraphicElementWithNewProps();
             }
          }
@@ -1220,27 +1278,29 @@ namespace TFEditor {
                numericUpDownLineHeight.Enabled =
                numericUpDownLineBorder.Enabled = false;
                Polyline p = GetSelectedAndActiveGraphicElement() as Polyline;
-               Bitmap bmday = new Bitmap(32, (int)(p.InnerWidth + 2 * p.BorderWidth));
-               Graphics canvas = Graphics.FromImage(bmday);
-               canvas.Clear(p.DayColor2);
-               if (p.BorderWidth > 0) {
-                  canvas.FillRectangle(new SolidBrush(p.DayColor1), 0, 0, bmday.Width, p.BorderWidth);
-                  canvas.FillRectangle(new SolidBrush(p.DayColor1), 0, p.BorderWidth + p.InnerWidth, bmday.Width, p.BorderWidth);
-               }
-               canvas.Flush();
-               Bitmap bmdnight = null;
-               if (p.Polylinetype == Polyline.PolylineType.Day1_Night2 ||
-                   p.Polylinetype == Polyline.PolylineType.Day2_Night2) {
-                  bmdnight = new Bitmap(bmday.Width, bmday.Height);
-                  canvas = Graphics.FromImage(bmdnight);
-                  canvas.Clear(p.NightColor2);
+               if (p != null) {
+                  Bitmap bmday = new Bitmap(32, (int)(p.InnerWidth + 2 * p.BorderWidth));
+                  Graphics canvas = Graphics.FromImage(bmday);
+                  canvas.Clear(p.DayColor2);
                   if (p.BorderWidth > 0) {
-                     canvas.FillRectangle(new SolidBrush(p.NightColor1), 0, 0, bmdnight.Width, p.BorderWidth);
-                     canvas.FillRectangle(new SolidBrush(p.NightColor1), 0, p.BorderWidth + p.InnerWidth, bmdnight.Width, p.BorderWidth);
+                     canvas.FillRectangle(new SolidBrush(p.DayColor1), 0, 0, bmday.Width, p.BorderWidth);
+                     canvas.FillRectangle(new SolidBrush(p.DayColor1), 0, p.BorderWidth + p.InnerWidth, bmday.Width, p.BorderWidth);
                   }
                   canvas.Flush();
+                  Bitmap bmdnight = null;
+                  if (p.Polylinetype == Polyline.PolylineType.Day1_Night2 ||
+                      p.Polylinetype == Polyline.PolylineType.Day2_Night2) {
+                     bmdnight = new Bitmap(bmday.Width, bmday.Height);
+                     canvas = Graphics.FromImage(bmdnight);
+                     canvas.Clear(p.NightColor2);
+                     if (p.BorderWidth > 0) {
+                        canvas.FillRectangle(new SolidBrush(p.NightColor1), 0, 0, bmdnight.Width, p.BorderWidth);
+                        canvas.FillRectangle(new SolidBrush(p.NightColor1), 0, p.BorderWidth + p.InnerWidth, bmdnight.Width, p.BorderWidth);
+                     }
+                     canvas.Flush();
+                  }
+                  p.SetBitmap(Polyline.PolylineType.Day2, bmday);
                }
-               p.SetBitmap(Polyline.PolylineType.Day2, bmday);
                ShowSelectedGraphicElementWithNewProps();
             }
          }
@@ -1253,16 +1313,15 @@ namespace TFEditor {
       /// <param name="org"></param>
       private void ShowLineInPicturebox(PictureBox pb, Bitmap org) {
          if (org != null && org.Height > 0) {
-            pb.ClientSize = new Size(pb.ClientSize.Width, org.Height * iScale4Line);
+            pb.ClientSize = new Size(pb.ClientSize.Width, (pb.ClientSize.Width * org.Height) / org.Width);
+
             Bitmap bm = new Bitmap(pb.ClientSize.Width, pb.ClientSize.Height);
-            org = StretchBitmap(org, iScale4Line);
             Graphics canvas = Graphics.FromImage(bm);
-            for (int i = 0; i < bm.Width; i += org.Width)
-               canvas.DrawImageUnscaled(org, i, 0);
+            canvas.DrawImage(org, new Rectangle(0, 0, bm.Width, bm.Height));
             canvas.Flush();
             pb.Image = bm;
          } else {
-            pb.ClientSize = new Size(pb.ClientSize.Width, 1);
+            pb.ClientSize = new Size(pb.ClientSize.Width, 0);
             pb.Image = null;
          }
       }
@@ -1276,21 +1335,23 @@ namespace TFEditor {
       /// <param name="col2"></param>
       /// <param name="borderwidth"></param>
       private void ShowLineInPicturebox(PictureBox pb, Color col1, int innerwidth, Color col2, int borderwidth) {
-         int width = iScale4Line * (innerwidth + 2 * borderwidth);
+         int width = pb.ClientSize.Width * (innerwidth + 2 * borderwidth) / 32;  // Linienbreite auf 32 bezogen (analog Bitmapbreite)
          if (width > 0) {
             pb.ClientSize = new Size(pb.ClientSize.Width, width);
+
             Bitmap bm = new Bitmap(pb.ClientSize.Width, pb.ClientSize.Height);
             Graphics canvas = Graphics.FromImage(bm);
             if (borderwidth > 0)
                canvas.FillRectangle(new SolidBrush(col2), 0, 0, bm.Width, bm.Height);
-            canvas.FillRectangle(new SolidBrush(col1), 0, iScale4Line * borderwidth, bm.Width, iScale4Line * innerwidth);
+            canvas.FillRectangle(new SolidBrush(col1), 0, (bm.Width * borderwidth) / 32, bm.Width, (bm.Width * innerwidth) / 32);
             canvas.Flush();
             pb.Image = bm;
          } else {
-            pb.ClientSize = new Size(pb.ClientSize.Width, 1);
+            pb.ClientSize = new Size(pb.ClientSize.Width, 0);
             pb.Image = null;
          }
       }
+
       /// <summary>
       /// Anzeige der Linie als Bilder
       /// </summary>
@@ -1482,6 +1543,11 @@ namespace TFEditor {
       }
 
       /// <summary>
+      /// Vergrößerung für die Punktdarstellung in der PictureBox
+      /// </summary>
+      int iScale4Point = 5;
+
+      /// <summary>
       /// der Punkt wird in der angegebenen PicturBox dargestellt
       /// </summary>
       /// <param name="pb"></param>
@@ -1520,7 +1586,7 @@ namespace TFEditor {
             int idx = ((ListBox)sender).SelectedIndex;
             if (idx >= 0) {
                GraphicElement ge = GetSelectedAndActiveGraphicElement();
-               ge.FontTyp = data4ListboxFont[idx];
+               ge.FontType = data4ListboxFont[idx];
                SetTypefileStatus(true);
             }
          }
@@ -1535,16 +1601,16 @@ namespace TFEditor {
          if (ge != null) {
             ShowMultitextInGridview(ge.Text, dataGridViewMultiText);
             for (int i = 0; i < data4ListboxFont.Length; i++)
-               if (data4ListboxFont[i] == ge.FontTyp) {
+               if (data4ListboxFont[i] == ge.FontType) {
                   listBoxFont.SelectedIndex = i;
                   break;
                }
             for (int i = 0; i < data4ListboxCustomcolor.Length; i++)
-               if (data4ListboxCustomcolor[i] == ge.FontColTyp) {
+               if (data4ListboxCustomcolor[i] == ge.FontColType) {
                   listBoxCustomColor.SelectedIndex = i;
                   break;
                }
-            switch (ge.FontColTyp) {
+            switch (ge.FontColType) {
                case GraphicElement.FontColours.Day:
                   pictureBoxCustomColor1.BackColor = ge.FontColor1;
                   pictureBoxCustomColor2.BackColor = Color.Transparent;
@@ -1566,7 +1632,7 @@ namespace TFEditor {
             listBoxFont.Enabled =
             listBoxCustomColor.Enabled = true;
             pictureBoxCustomColor1.Enabled =
-            pictureBoxCustomColor2.Enabled = ge.FontColTyp != GraphicElement.FontColours.No;
+            pictureBoxCustomColor2.Enabled = ge.FontColType != GraphicElement.FontColours.No;
          } else {
             ShowMultitextInGridview(null, dataGridViewMultiText);
             int idx = 0;
@@ -1645,7 +1711,7 @@ namespace TFEditor {
             }
             GraphicElement ge = GetSelectedAndActiveGraphicElement();
             if (ge != null) {
-               ge.FontColTyp = data4ListboxCustomcolor[idx];
+               ge.FontColType = data4ListboxCustomcolor[idx];
                SetTypefileStatus(true);
                ShowTextProperties(ge);
             }
@@ -1765,11 +1831,11 @@ namespace TFEditor {
             bm = GetImage4Imagelist(bmorg, colBitmapBackcolor,
                            listViewLine.LargeImageList.ImageSize.Width, listViewLine.LargeImageList.ImageSize.Height);
             listViewArea.LargeImageList.Images.Add(bm);
-            string[] dat = new string[] { 
+            string[] dat = new string[] {
                      ElementTyp2Text(p),
                      p.Text.Get(PreferredLanguage),
                      p.Draworder.ToString(),
-                     AreaTypName[p.Polygontype]
+                     AreaTypName[p.Colortype]
                   };
             lvi = new ListViewItem(dat, listViewArea.LargeImageList.Images.Count - 1);
             lvi.Tag = p;
@@ -1785,7 +1851,7 @@ namespace TFEditor {
             bm = GetImage4Imagelist(bmorg, colBitmapBackcolor,
                            listViewLine.LargeImageList.ImageSize.Width, listViewLine.LargeImageList.ImageSize.Height);
             listViewLine.LargeImageList.Images.Add(bm);
-            string[] dat = new string[] { 
+            string[] dat = new string[] {
                      ElementTyp2Text(p),
                      p.Text.Get(PreferredLanguage),
                      LineTypName[p.Polylinetype],
@@ -1805,7 +1871,7 @@ namespace TFEditor {
             bm = GetImage4Imagelist(bmorg, colBitmapBackcolor,
                            listViewPoint.LargeImageList.ImageSize.Width, listViewPoint.LargeImageList.ImageSize.Height);
             listViewPoint.LargeImageList.Images.Add(bm);
-            string[] dat = new string[] { 
+            string[] dat = new string[] {
                      ElementTyp2Text(p),
                      p.Text.Get(PreferredLanguage),
                      string.Format("{0} x {1}",p.Width,p.Height)
@@ -1936,7 +2002,7 @@ namespace TFEditor {
       /// <param name="ge"></param>
       /// <returns></returns>
       private string ElementTyp2Text(GraphicElement ge) {
-         return ge.Subtyp == 0 ? string.Format("0x{0:x3}", ge.Typ) : string.Format("0x{0:x3}, 0x{1:x2}", ge.Typ, ge.Subtyp);
+         return ge.Subtype == 0 ? string.Format("0x{0:x3}", ge.Type) : string.Format("0x{0:x3}, 0x{1:x2}", ge.Type, ge.Subtype);
       }
 
       /// <summary>
@@ -2089,6 +2155,8 @@ namespace TFEditor {
             lv = listViewLine;
          if (t == typeof(POI))
             lv = listViewPoint;
+         if (lv.SelectedItems.Count == 0)
+            return;
          ListViewItem lvi = lv.SelectedItems[0];
          int pictidx = lvi.ImageIndex;
          int idx = lvi.Index;
@@ -2110,12 +2178,12 @@ namespace TFEditor {
          string sName = ge.Text.Get(PreferredLanguage);
          string[] dat = null;
          if (t == typeof(Polygone))
-            dat = new string[] { sType, sName, 
-                                 ((Polygone)ge).Draworder.ToString(), 
-                                 AreaTypName[((Polygone)ge).Polygontype] 
+            dat = new string[] { sType, sName,
+                                 ((Polygone)ge).Draworder.ToString(),
+                                 AreaTypName[((Polygone)ge).Colortype]
             };
          else if (t == typeof(Polyline))
-            dat = new string[] { sType, sName, 
+            dat = new string[] { sType, sName,
                                  LineTypName[((Polyline)ge).Polylinetype],
                                  ((Polyline)ge).Height.ToString()
             };
@@ -2132,6 +2200,200 @@ namespace TFEditor {
 
          ShowAllData4GraphicElement(ge);
          SetTypefileStatus(true);
+      }
+
+      /// <summary>
+      /// zeigt alle Daten für dieses GraphicElement an oder bei null Anzeige auf Dummywerte setzen
+      /// </summary>
+      /// <param name="ge"></param>
+      private void ShowAllData4GraphicElement(GraphicElement ge) {
+         Type tp_typ = (ge == null) ?         // dann fkt. "is" natürlich nicht
+                           tp_typ = GetType4ActiveTabpage() :
+                           tp_typ = ge.GetType();
+         if (tp_typ == typeof(Polygone)) {
+            #region Datenanzeige für Polygone
+            Polygone p = ge as Polygone;
+            numericUpDownAreaDraworder.Enabled =
+            pictureBoxAreaDay.Enabled =
+            pictureBoxAreaNight.Enabled =
+            listBoxAreaTyp.Enabled = p != null;
+            if (p != null) {
+               numericUpDownAreaDraworder.Value = p.Draworder;
+               ShowAreaInPicturebox(pictureBoxAreaDay, p.AsBitmap(true, true));
+               pictureBoxAreaNight.Image = null;
+               switch (p.Colortype) {
+                  case Polygone.ColorType.Day1_Night1:
+                  case Polygone.ColorType.BM_Day1_Night1:
+                  case Polygone.ColorType.BM_Day1_Night2:
+                  case Polygone.ColorType.BM_Day2_Night1:
+                  case Polygone.ColorType.BM_Day2_Night2:
+                     ShowAreaInPicturebox(pictureBoxAreaNight, p.AsBitmap(false, true));
+                     break;
+               }
+               for (int i = 0; i < data4ListboxAreaTyp.Length; i++)
+                  if (data4ListboxAreaTyp[i] == p.Colortype) {
+                     listBoxAreaTyp.SelectedIndex = i;
+                     break;
+                  }
+            } else {       // Dummywerte und alles disabled
+               DiableDataControls4Polygones();
+            }
+            #endregion
+         } else if (tp_typ == typeof(Polyline)) {
+            #region Datenanzeige für Polyline
+            Polyline p = ge as Polyline;
+            pictureBoxLineDay.Enabled =
+            pictureBoxLineNight.Enabled =
+            groupBoxLine1.Enabled =
+            listBoxLineTyp.Enabled =
+            checkBoxLineTextRotation.Enabled = p != null;
+            ControlValueSettingsValidated(splitContainerLine.Panel2, false);
+
+
+            if (p != null) {
+               if (p.WithDayBitmap) {     // max. 32 Pixel hoch
+                  radioButtonLineBitmap.Checked = true;
+                  numericUpDownLineHeight.Enabled =
+                  numericUpDownLineBorder.Enabled = false;
+                  labelLineWidth.Text = "Liniendicke: " + p.BitmapHeight.ToString();
+               } else {
+                  // Es scheint auch atypische Linien zu geben, z.B. vom Typ Day2, aber nur mit Breite 1
+                  // so daß kein Rand gezeichnet werden kann.
+                  uint iBorder = p.BorderWidth;
+                  switch (p.Polylinetype) {
+                     case Polyline.PolylineType.Day2:
+                     case Polyline.PolylineType.Day1_Night2:
+                     case Polyline.PolylineType.Day2_Night2:
+                        break;
+                     case Polyline.PolylineType.NoBorder_Day1:
+                     case Polyline.PolylineType.NoBorder_Day1_Night1:
+                     case Polyline.PolylineType.NoBorder_Day2_Night1:
+                        numericUpDownLineBorder.Enabled = false;
+                        iBorder = 0;
+                        break;
+                  }
+                  radioButtonLineSolidColor.Checked =
+                  numericUpDownLineHeight.Enabled =
+                  numericUpDownLineBorder.Enabled = true;
+                  numericUpDownLineBorder.Maximum = iMaxLineWidth;
+                  numericUpDownLineBorder.Value = iBorder;
+                  numericUpDownLineHeight.Maximum = iMaxLineWidth;
+                  numericUpDownLineHeight.Value = p.Height;
+               }
+               labelLineWidth.Text = "Liniendicke: " + p.Height.ToString();
+               ShowLineInPictureboxes(p);
+               checkBoxLineTextRotation.Checked = p.WithTextRotation;
+               for (int i = 0; i < data4ListboxLineTyp.Length; i++)
+                  if (data4ListboxLineTyp[i] == p.Polylinetype) {
+                     listBoxLineTyp.SelectedIndex = i;
+                     break;
+                  }
+            } else {       // Dummywerte und alles disabled
+               DiableDataControls4Polylines();
+            }
+            ControlValueSettingsValidated(splitContainerLine.Panel2);
+            #endregion
+         } else if (tp_typ == typeof(POI)) {
+            #region Datenanzeige für POI
+            POI p = ge as POI;
+            pictureBoxPointDay.Enabled =
+            pictureBoxPointNight.Enabled = p != null;
+            if (p != null) {
+               Bitmap bm = p.AsBitmap(true);
+               LabelPointDay.Text = string.Format("Tag: {0} x {1}, {2}", bm.Width, bm.Height, PointTypName[p.ColormodeDay]);
+               ShowPointInPicturebox(pictureBoxPointDay, bm);
+               bm = p.AsBitmap(false);
+               LabelPointNigth.Location = new Point(LabelPointNigth.Location.X, pictureBoxPointDay.Bottom + 25);
+               pictureBoxPointNight.Location = new Point(pictureBoxPointNight.Location.X, LabelPointNigth.Bottom + 18);
+               if (p.WithNightBitmap) {
+                  // neue Position festlegen
+                  LabelPointNigth.Text += string.Format("Nacht: {0} x {1}, {2}", bm.Width, bm.Height, PointTypName[p.ColormodeNight]);
+               } else
+                  LabelPointNigth.Text = "Nacht:";
+               ShowPointInPicturebox(pictureBoxPointNight, p.WithNightBitmap ? bm : null);
+            } else {       // Dummywerte
+               DiableDataControls4Points();
+            }
+            #endregion
+         }
+         ShowTextProperties(ge);
+      }
+
+      /// <summary>
+      /// liefert das Listview zu dem das ToolStripMenuItem im Moment gehört
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <returns></returns>
+      private ListView GetListView4ToolStripMenuItem(object sender) {
+         ListView lv = null;
+         ToolStripMenuItem mi = (ToolStripMenuItem)sender;
+         while (mi != null && mi.OwnerItem != null)
+            mi = (ToolStripMenuItem)mi.OwnerItem;
+         if (mi != null && mi.Owner != null)
+            lv = (ListView)((ContextMenuStrip)mi.Owner).Tag;
+         return lv;
+      }
+
+      void DiableDataControls4Polygones() {
+         pictureBoxAreaDay.Image = null;
+         pictureBoxAreaNight.Image = null;
+         for (int i = 0; i < data4ListboxAreaTyp.Length; i++)
+            if (data4ListboxAreaTyp[i] == Polygone.ColorType.Day1) {
+               listBoxAreaTyp.SelectedIndex = i;
+               break;
+            }
+
+         numericUpDownAreaDraworder.Enabled =
+         pictureBoxAreaDay.Enabled =
+         pictureBoxAreaNight.Enabled =
+         listBoxAreaTyp.Enabled = false;
+
+         numericUpDownAreaDraworder.Value = 1;
+      }
+
+      void DiableDataControls4Polylines() {
+         labelLineWidth.Text = "Liniendicke: -";
+         pictureBoxLineDay.Image = null;
+         pictureBoxLineNight.Image = null;
+         radioButtonLineSolidColor.Checked = true;
+         numericUpDownLineHeight.Value = numericUpDownLineHeight.Minimum;
+         numericUpDownLineBorder.Value = numericUpDownLineBorder.Minimum;
+         checkBoxLineTextRotation.Checked = false;
+         groupBoxLine1.Enabled = false;
+         for (int i = 0; i < data4ListboxLineTyp.Length; i++)
+            if (data4ListboxLineTyp[i] == Polyline.PolylineType.Day2) {
+               listBoxLineTyp.SelectedIndex = i;
+               break;
+            }
+
+         pictureBoxLineDay.Enabled =
+         pictureBoxLineNight.Enabled =
+         groupBoxLine1.Enabled =
+         listBoxLineTyp.Enabled =
+         checkBoxLineTextRotation.Enabled = false;
+      }
+
+      void DiableDataControls4Points() {
+         LabelPointDay.Text = LabelPointNigth.Text = "";
+         ShowPointInPicturebox(pictureBoxPointDay, null);
+         ShowPointInPicturebox(pictureBoxPointNight, null);
+
+         pictureBoxPointDay.Enabled =
+         pictureBoxPointNight.Enabled = false;
+         LabelPointDay.Text = LabelPointNigth.Text = "";
+         ShowPointInPicturebox(pictureBoxPointDay, null);
+         ShowPointInPicturebox(pictureBoxPointNight, null);
+      }
+
+      void DiableDataControls4Text() {
+         ShowMultitextInGridview(null, dataGridViewMultiText);
+         dataGridViewMultiText.Enabled = false;
+         listBoxFont.Enabled = false;
+         listBoxCustomColor.Enabled = false;
+         pictureBoxCustomColor1.BackColor = Color.Black;
+         pictureBoxCustomColor1.Enabled = false;
+         pictureBoxCustomColor2.BackColor = Color.Black;
+         pictureBoxCustomColor2.Enabled = false;
       }
 
       /// <summary>
@@ -2178,160 +2440,41 @@ namespace TFEditor {
 
       #endregion
 
+
       #endregion
 
-
-      /// <summary>
-      /// zeigt alle Daten für dieses GraphicElement an oder bei null Anzeige auf Dummywerte setzen
-      /// </summary>
-      /// <param name="ge"></param>
-      private void ShowAllData4GraphicElement(GraphicElement ge) {
-         Type tp_typ = (ge == null) ?         // dann fkt. "is" natürlich nicht
-                           tp_typ = GetType4ActiveTabpage() :
-                           tp_typ = ge.GetType();
-         if (tp_typ == typeof(Polygone)) {
-            #region Datenanzeige für Polygone
-            Polygone p = ge as Polygone;
-            numericUpDownAreaDraworder.Enabled =
-            pictureBoxAreaDay.Enabled =
-            pictureBoxAreaNight.Enabled =
-            listBoxAreaTyp.Enabled = p != null;
-            if (p != null) {
-               numericUpDownAreaDraworder.Value = p.Draworder;
-               ShowAreaInPicturebox(pictureBoxAreaDay, p.AsBitmap(true, true));
-               pictureBoxAreaNight.Image = null;
-               switch (p.Polygontype) {
-                  case Polygone.PolygonType.Day1_Night1:
-                  case Polygone.PolygonType.BM_Day1_Night1:
-                  case Polygone.PolygonType.BM_Day1_Night2:
-                  case Polygone.PolygonType.BM_Day2_Night1:
-                  case Polygone.PolygonType.BM_Day2_Night2:
-                     ShowAreaInPicturebox(pictureBoxAreaNight, p.AsBitmap(false, true));
-                     break;
-               }
-               for (int i = 0; i < data4ListboxAreaTyp.Length; i++)
-                  if (data4ListboxAreaTyp[i] == p.Polygontype) {
-                     listBoxAreaTyp.SelectedIndex = i;
-                     break;
-                  }
-            } else {       // Dummywerte und alles disabled
-               numericUpDownAreaDraworder.Value = 1;
-               pictureBoxAreaDay.Image = null;
-               pictureBoxAreaNight.Image = null;
-               for (int i = 0; i < data4ListboxAreaTyp.Length; i++)
-                  if (data4ListboxAreaTyp[i] == Polygone.PolygonType.Day1) {
-                     listBoxAreaTyp.SelectedIndex = i;
-                     break;
-                  }
+      void AddLastfile(string file) {
+         string fileupper = file.ToUpper();
+         for (int i = 0; i < LastFiles.Count; i++) {
+            if (LastFiles[i].ToUpper() == fileupper) {
+               LastFiles.RemoveAt(i);
+               break;
             }
-            #endregion
-         } else if (tp_typ == typeof(Polyline)) {
-            #region Datenanzeige für Polyline
-            Polyline p = ge as Polyline;
-            pictureBoxLineDay.Enabled =
-            pictureBoxLineNight.Enabled =
-            groupBoxLine1.Enabled =
-            listBoxLineTyp.Enabled =
-            checkBoxLineTextRotation.Enabled = p != null;
-            ControlValueSettingsValidated(splitContainerLine.Panel2, false);
-
-
-            if (p != null) {
-               if (p.WithDayBitmap) {     // max. 32 Pixel hoch
-                  radioButtonLineBitmap.Checked = true;
-                  numericUpDownLineHeight.Enabled =
-                  numericUpDownLineBorder.Enabled = false;
-                  labelLineWidth.Text = "Liniendicke: " + p.BitmapHeight.ToString();
-               } else {
-                  // Es scheint auch atypische Linien zu geben, z.B. vom Typ Day2, aber nur mit Breite 1
-                  // so daß kein Rand gezeichnet werden kann.
-                  uint iBorder = p.BorderWidth;
-                  switch (p.Polylinetype) {
-                     case Polyline.PolylineType.Day2:
-                     case Polyline.PolylineType.Day1_Night2:
-                     case Polyline.PolylineType.Day2_Night2:
-                        break;
-                     case Polyline.PolylineType.NoBorder_Day1:
-                     case Polyline.PolylineType.NoBorder_Day1_Night1:
-                     case Polyline.PolylineType.NoBorder_Day2_Night1:
-                        numericUpDownLineBorder.Enabled = false;
-                        iBorder = 0;
-                        break;
-                  }
-                  radioButtonLineSolidColor.Checked =
-                  numericUpDownLineHeight.Enabled =
-                  numericUpDownLineBorder.Enabled = true;
-                  numericUpDownLineBorder.Value = iBorder;
-                  numericUpDownLineBorder.Maximum = iMaxLineWidth;
-                  numericUpDownLineHeight.Value = p.Height;
-                  numericUpDownLineHeight.Maximum = iMaxLineWidth;
-               }
-               labelLineWidth.Text = "Liniendicke: " + p.Height.ToString();
-               ShowLineInPictureboxes(p);
-               checkBoxLineTextRotation.Checked = p.WithTextRotation;
-               for (int i = 0; i < data4ListboxLineTyp.Length; i++)
-                  if (data4ListboxLineTyp[i] == p.Polylinetype) {
-                     listBoxLineTyp.SelectedIndex = i;
-                     break;
-                  }
-            } else {       // Dummywerte und alles disabled
-               labelLineWidth.Text = "Liniendicke: -";
-               pictureBoxLineDay.Image = null;
-               pictureBoxLineNight.Image = null;
-               radioButtonLineSolidColor.Checked = true;
-               numericUpDownLineHeight.Value = numericUpDownLineHeight.Minimum;
-               numericUpDownLineBorder.Value = numericUpDownLineBorder.Minimum;
-               checkBoxLineTextRotation.Checked = false;
-               groupBoxLine1.Enabled = false;
-               for (int i = 0; i < data4ListboxLineTyp.Length; i++)
-                  if (data4ListboxLineTyp[i] == Polyline.PolylineType.Day2) {
-                     listBoxLineTyp.SelectedIndex = i;
-                     break;
-                  }
-            }
-            ControlValueSettingsValidated(splitContainerLine.Panel2);
-            #endregion
-         } else if (tp_typ == typeof(POI)) {
-            #region Datenanzeige für POI
-            POI p = ge as POI;
-            pictureBoxPointDay.Enabled =
-            pictureBoxPointNight.Enabled = p != null;
-            if (p != null) {
-               Bitmap bm = p.AsBitmap(true);
-               LabelPointDay.Text = string.Format("Tag: {0} x {1}, {2}", bm.Width, bm.Height, PointTypName[p.ColormodeDay]);
-               ShowPointInPicturebox(pictureBoxPointDay, bm);
-               bm = p.AsBitmap(false);
-               LabelPointNigth.Location = new Point(LabelPointNigth.Location.X, pictureBoxPointDay.Bottom + 25);
-               pictureBoxPointNight.Location = new Point(pictureBoxPointNight.Location.X, LabelPointNigth.Bottom + 18);
-               if (p.WithNightBitmap) {
-                  // neue Position festlegen
-                  LabelPointNigth.Text += string.Format("Nacht: {0} x {1}, {2}", bm.Width, bm.Height, PointTypName[p.ColormodeNight]);
-               } else
-                  LabelPointNigth.Text = "Nacht:";
-               ShowPointInPicturebox(pictureBoxPointNight, p.WithNightBitmap ? bm : null);
-            } else {       // Dummywerte
-               LabelPointDay.Text = LabelPointNigth.Text = "";
-               ShowPointInPicturebox(pictureBoxPointDay, null);
-               ShowPointInPicturebox(pictureBoxPointNight, null);
-            }
-            #endregion
          }
-         ShowTextProperties(ge);
+         LastFiles.Add(file);
+         while (LastFiles.Count > 15) // nicht mehr als 15 Dateien
+            LastFiles.RemoveAt(0);
       }
 
-      /// <summary>
-      /// liefert das Listview zu dem das ToolStripMenuItem im Moment gehört
-      /// </summary>
-      /// <param name="sender"></param>
-      /// <returns></returns>
-      private ListView GetListView4ToolStripMenuItem(object sender) {
-         ListView lv = null;
-         ToolStripMenuItem mi = (ToolStripMenuItem)sender;
-         while (mi != null && mi.OwnerItem != null)
-            mi = (ToolStripMenuItem)mi.OwnerItem;
-         if (mi != null && mi.Owner != null)
-            lv = (ListView)((ContextMenuStrip)mi.Owner).Tag;
-         return lv;
+      private void menuStripMain_MenuActivate(object sender, EventArgs e) {
+         ToolStripMenuItem mi = (sender as MenuStrip).Items[0] as ToolStripMenuItem;   // mi für 1. Spalte
+         for (int i = 0; i < mi.DropDownItems.Count; i++) {
+            ToolStripMenuItem mir = mi.DropDownItems[i] as ToolStripMenuItem;
+            if (mir == ToolStripMenuItemLastFiles) {
+               ToolStripDropDown dd = mir.DropDown;
+               dd.Items.Clear();
+               for (int j = 0; j < LastFiles.Count; j++) {
+                  dd.Items.Add("&" + (j + 1).ToString() + ". " + LastFiles[j], null, new EventHandler(ToolStripMenuItem_recentused));
+                  dd.Items[dd.Items.Count - 1].Tag = LastFiles[j];
+               }
+               ToolStripMenuItemLastFiles.Enabled = dd.Items.Count > 0;
+               break;
+            }
+         }
+      }
+
+      void ToolStripMenuItem_recentused(object sender, EventArgs e) {
+         LoadTypefile((sender as ToolStripMenuItem).Tag as string);
       }
 
    }

@@ -55,6 +55,7 @@
          this.contextMenuStripArea = new System.Windows.Forms.ContextMenuStrip(this.components);
          this.ToolStripMenuItemAreaColor1 = new System.Windows.Forms.ToolStripMenuItem();
          this.ToolStripMenuItemAreaColor2 = new System.Windows.Forms.ToolStripMenuItem();
+         this.ToolStripMenuItemAreaColor1Transparent = new System.Windows.Forms.ToolStripMenuItem();
          this.ToolStripMenuItemAreaColorSwap = new System.Windows.Forms.ToolStripMenuItem();
          this.ToolStripMenuItemAreaCopy = new System.Windows.Forms.ToolStripMenuItem();
          this.ToolStripMenuItemAreaInsert = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,6 +81,7 @@
          this.contextMenuStripLine = new System.Windows.Forms.ContextMenuStrip(this.components);
          this.ToolStripMenuItemLineColor1 = new System.Windows.Forms.ToolStripMenuItem();
          this.ToolStripMenuItemLineColor2 = new System.Windows.Forms.ToolStripMenuItem();
+         this.ToolStripMenuItemLineColor1Transparent = new System.Windows.Forms.ToolStripMenuItem();
          this.ToolStripMenuItemLineColorSwap = new System.Windows.Forms.ToolStripMenuItem();
          this.ToolStripMenuItemLineCopy = new System.Windows.Forms.ToolStripMenuItem();
          this.ToolStripMenuItemLineInsert = new System.Windows.Forms.ToolStripMenuItem();
@@ -119,6 +121,7 @@
          this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.ToolStripMenuItemNew = new System.Windows.Forms.ToolStripMenuItem();
          this.ToolStripMenuItemOpen = new System.Windows.Forms.ToolStripMenuItem();
+         this.ToolStripMenuItemLastFiles = new System.Windows.Forms.ToolStripMenuItem();
          this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
          this.ToolStripMenuItemSave = new System.Windows.Forms.ToolStripMenuItem();
          this.ToolStripMenuItemSave2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -155,11 +158,13 @@
          this.toolStripContainer1.ContentPanel.SuspendLayout();
          this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
          this.toolStripContainer1.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
          this.splitContainerMain.Panel1.SuspendLayout();
          this.splitContainerMain.Panel2.SuspendLayout();
          this.splitContainerMain.SuspendLayout();
          this.tabControl1.SuspendLayout();
          this.tabPageArea.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.splitContainerArea)).BeginInit();
          this.splitContainerArea.Panel1.SuspendLayout();
          this.splitContainerArea.Panel2.SuspendLayout();
          this.splitContainerArea.SuspendLayout();
@@ -169,6 +174,7 @@
          this.contextMenuStripArea.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAreaDay)).BeginInit();
          this.tabPageLine.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.splitContainerLine)).BeginInit();
          this.splitContainerLine.Panel1.SuspendLayout();
          this.splitContainerLine.Panel2.SuspendLayout();
          this.splitContainerLine.SuspendLayout();
@@ -179,12 +185,14 @@
          this.contextMenuStripLine.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLineDay)).BeginInit();
          this.tabPagePoint.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.splitContainerPoint)).BeginInit();
          this.splitContainerPoint.Panel1.SuspendLayout();
          this.splitContainerPoint.Panel2.SuspendLayout();
          this.splitContainerPoint.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPointNight)).BeginInit();
          this.contextMenuStripPoint.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPointDay)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
          this.splitContainer1.Panel1.SuspendLayout();
          this.splitContainer1.Panel2.SuspendLayout();
          this.splitContainer1.SuspendLayout();
@@ -201,11 +209,11 @@
          // toolStripContainer1.ContentPanel
          // 
          this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainerMain);
-         this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(2);
          this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(787, 611);
          this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
          this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
-         this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(2);
          this.toolStripContainer1.Name = "toolStripContainer1";
          this.toolStripContainer1.Size = new System.Drawing.Size(787, 660);
          this.toolStripContainer1.TabIndex = 0;
@@ -241,7 +249,7 @@
          this.tabControl1.Controls.Add(this.tabPagePoint);
          this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
          this.tabControl1.Location = new System.Drawing.Point(0, 0);
-         this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
          this.tabControl1.Name = "tabControl1";
          this.tabControl1.SelectedIndex = 0;
          this.tabControl1.Size = new System.Drawing.Size(550, 611);
@@ -252,9 +260,9 @@
          // 
          this.tabPageArea.Controls.Add(this.splitContainerArea);
          this.tabPageArea.Location = new System.Drawing.Point(4, 22);
-         this.tabPageArea.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.tabPageArea.Margin = new System.Windows.Forms.Padding(2);
          this.tabPageArea.Name = "tabPageArea";
-         this.tabPageArea.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.tabPageArea.Padding = new System.Windows.Forms.Padding(2);
          this.tabPageArea.Size = new System.Drawing.Size(542, 585);
          this.tabPageArea.TabIndex = 0;
          this.tabPageArea.Text = "Flächen";
@@ -264,7 +272,7 @@
          // 
          this.splitContainerArea.Dock = System.Windows.Forms.DockStyle.Fill;
          this.splitContainerArea.Location = new System.Drawing.Point(2, 2);
-         this.splitContainerArea.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.splitContainerArea.Margin = new System.Windows.Forms.Padding(2);
          this.splitContainerArea.Name = "splitContainerArea";
          // 
          // splitContainerArea.Panel1
@@ -299,7 +307,7 @@
          this.listViewArea.FullRowSelect = true;
          this.listViewArea.HideSelection = false;
          this.listViewArea.Location = new System.Drawing.Point(0, 0);
-         this.listViewArea.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.listViewArea.Margin = new System.Windows.Forms.Padding(2);
          this.listViewArea.MultiSelect = false;
          this.listViewArea.Name = "listViewArea";
          this.listViewArea.ShowItemToolTips = true;
@@ -438,7 +446,7 @@
          // numericUpDownAreaDraworder
          // 
          this.numericUpDownAreaDraworder.Location = new System.Drawing.Point(139, 7);
-         this.numericUpDownAreaDraworder.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.numericUpDownAreaDraworder.Margin = new System.Windows.Forms.Padding(2);
          this.numericUpDownAreaDraworder.Minimum = new decimal(new int[] {
             1,
             0,
@@ -471,19 +479,21 @@
          this.listBoxAreaTyp.FormattingEnabled = true;
          this.listBoxAreaTyp.IntegralHeight = false;
          this.listBoxAreaTyp.Location = new System.Drawing.Point(5, 45);
-         this.listBoxAreaTyp.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.listBoxAreaTyp.Margin = new System.Windows.Forms.Padding(2);
          this.listBoxAreaTyp.Name = "listBoxAreaTyp";
-         this.listBoxAreaTyp.Size = new System.Drawing.Size(276, 121);
+         this.listBoxAreaTyp.Size = new System.Drawing.Size(280, 121);
          this.listBoxAreaTyp.TabIndex = 2;
          this.listBoxAreaTyp.SelectedIndexChanged += new System.EventHandler(this.listBoxAreaTyp_SelectedIndexChanged);
          // 
          // pictureBoxAreaNight
          // 
+         this.pictureBoxAreaNight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
          this.pictureBoxAreaNight.ContextMenuStrip = this.contextMenuStripArea;
          this.pictureBoxAreaNight.Location = new System.Drawing.Point(118, 200);
-         this.pictureBoxAreaNight.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.pictureBoxAreaNight.Margin = new System.Windows.Forms.Padding(2);
          this.pictureBoxAreaNight.Name = "pictureBoxAreaNight";
-         this.pictureBoxAreaNight.Size = new System.Drawing.Size(96, 104);
+         this.pictureBoxAreaNight.Size = new System.Drawing.Size(96, 96);
+         this.pictureBoxAreaNight.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
          this.pictureBoxAreaNight.TabIndex = 1;
          this.pictureBoxAreaNight.TabStop = false;
          // 
@@ -492,11 +502,12 @@
          this.contextMenuStripArea.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItemAreaColor1,
             this.ToolStripMenuItemAreaColor2,
+            this.ToolStripMenuItemAreaColor1Transparent,
             this.ToolStripMenuItemAreaColorSwap,
             this.ToolStripMenuItemAreaCopy,
             this.ToolStripMenuItemAreaInsert});
          this.contextMenuStripArea.Name = "contextMenuStripArea";
-         this.contextMenuStripArea.Size = new System.Drawing.Size(247, 114);
+         this.contextMenuStripArea.Size = new System.Drawing.Size(247, 136);
          this.contextMenuStripArea.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripArea_Opening);
          // 
          // ToolStripMenuItemAreaColor1
@@ -512,6 +523,13 @@
          this.ToolStripMenuItemAreaColor2.Size = new System.Drawing.Size(246, 22);
          this.ToolStripMenuItemAreaColor2.Text = "F&arbe 2 setzen";
          this.ToolStripMenuItemAreaColor2.Click += new System.EventHandler(this.ToolStripMenuAreaColor2_Click);
+         // 
+         // ToolStripMenuItemAreaColor1Transparent
+         // 
+         this.ToolStripMenuItemAreaColor1Transparent.Name = "ToolStripMenuItemAreaColor1Transparent";
+         this.ToolStripMenuItemAreaColor1Transparent.Size = new System.Drawing.Size(246, 22);
+         this.ToolStripMenuItemAreaColor1Transparent.Text = "Farbe 1 transparent setzen";
+         this.ToolStripMenuItemAreaColor1Transparent.Click += new System.EventHandler(this.ToolStripMenuItemAreaColor1Transparent_Click);
          // 
          // ToolStripMenuItemAreaColorSwap
          // 
@@ -536,11 +554,13 @@
          // 
          // pictureBoxAreaDay
          // 
+         this.pictureBoxAreaDay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
          this.pictureBoxAreaDay.ContextMenuStrip = this.contextMenuStripArea;
          this.pictureBoxAreaDay.Location = new System.Drawing.Point(5, 200);
-         this.pictureBoxAreaDay.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.pictureBoxAreaDay.Margin = new System.Windows.Forms.Padding(2);
          this.pictureBoxAreaDay.Name = "pictureBoxAreaDay";
-         this.pictureBoxAreaDay.Size = new System.Drawing.Size(96, 104);
+         this.pictureBoxAreaDay.Size = new System.Drawing.Size(96, 96);
+         this.pictureBoxAreaDay.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
          this.pictureBoxAreaDay.TabIndex = 0;
          this.pictureBoxAreaDay.TabStop = false;
          // 
@@ -548,10 +568,10 @@
          // 
          this.tabPageLine.Controls.Add(this.splitContainerLine);
          this.tabPageLine.Location = new System.Drawing.Point(4, 22);
-         this.tabPageLine.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.tabPageLine.Margin = new System.Windows.Forms.Padding(2);
          this.tabPageLine.Name = "tabPageLine";
-         this.tabPageLine.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-         this.tabPageLine.Size = new System.Drawing.Size(600, 592);
+         this.tabPageLine.Padding = new System.Windows.Forms.Padding(2);
+         this.tabPageLine.Size = new System.Drawing.Size(542, 585);
          this.tabPageLine.TabIndex = 1;
          this.tabPageLine.Text = "Linien";
          this.tabPageLine.UseVisualStyleBackColor = true;
@@ -560,7 +580,7 @@
          // 
          this.splitContainerLine.Dock = System.Windows.Forms.DockStyle.Fill;
          this.splitContainerLine.Location = new System.Drawing.Point(2, 2);
-         this.splitContainerLine.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.splitContainerLine.Margin = new System.Windows.Forms.Padding(2);
          this.splitContainerLine.Name = "splitContainerLine";
          // 
          // splitContainerLine.Panel1
@@ -578,8 +598,8 @@
          this.splitContainerLine.Panel2.Controls.Add(this.pictureBoxLineDay);
          this.splitContainerLine.Panel2.Controls.Add(this.label10);
          this.splitContainerLine.Panel2.Controls.Add(this.listBoxLineTyp);
-         this.splitContainerLine.Size = new System.Drawing.Size(596, 588);
-         this.splitContainerLine.SplitterDistance = 282;
+         this.splitContainerLine.Size = new System.Drawing.Size(538, 581);
+         this.splitContainerLine.SplitterDistance = 254;
          this.splitContainerLine.SplitterWidth = 3;
          this.splitContainerLine.TabIndex = 0;
          // 
@@ -596,11 +616,11 @@
          this.listViewLine.FullRowSelect = true;
          this.listViewLine.HideSelection = false;
          this.listViewLine.Location = new System.Drawing.Point(0, 0);
-         this.listViewLine.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.listViewLine.Margin = new System.Windows.Forms.Padding(2);
          this.listViewLine.MultiSelect = false;
          this.listViewLine.Name = "listViewLine";
          this.listViewLine.ShowItemToolTips = true;
-         this.listViewLine.Size = new System.Drawing.Size(282, 588);
+         this.listViewLine.Size = new System.Drawing.Size(254, 581);
          this.listViewLine.Sorting = System.Windows.Forms.SortOrder.Ascending;
          this.listViewLine.TabIndex = 1;
          this.listViewLine.UseCompatibleStateImageBehavior = false;
@@ -637,7 +657,7 @@
          // 
          this.checkBoxLineTextRotation.AutoSize = true;
          this.checkBoxLineTextRotation.Location = new System.Drawing.Point(4, 326);
-         this.checkBoxLineTextRotation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.checkBoxLineTextRotation.Margin = new System.Windows.Forms.Padding(2);
          this.checkBoxLineTextRotation.Name = "checkBoxLineTextRotation";
          this.checkBoxLineTextRotation.Size = new System.Drawing.Size(168, 17);
          this.checkBoxLineTextRotation.TabIndex = 30;
@@ -656,10 +676,10 @@
          this.groupBoxLine1.Controls.Add(this.radioButtonLineBitmap);
          this.groupBoxLine1.Controls.Add(this.radioButtonLineSolidColor);
          this.groupBoxLine1.Location = new System.Drawing.Point(4, 163);
-         this.groupBoxLine1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.groupBoxLine1.Margin = new System.Windows.Forms.Padding(2);
          this.groupBoxLine1.Name = "groupBoxLine1";
-         this.groupBoxLine1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-         this.groupBoxLine1.Size = new System.Drawing.Size(295, 140);
+         this.groupBoxLine1.Padding = new System.Windows.Forms.Padding(2);
+         this.groupBoxLine1.Size = new System.Drawing.Size(269, 140);
          this.groupBoxLine1.TabIndex = 28;
          this.groupBoxLine1.TabStop = false;
          this.groupBoxLine1.Text = "Art der Darstellung";
@@ -677,7 +697,7 @@
          // numericUpDownLineBorder
          // 
          this.numericUpDownLineBorder.Location = new System.Drawing.Point(23, 67);
-         this.numericUpDownLineBorder.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.numericUpDownLineBorder.Margin = new System.Windows.Forms.Padding(2);
          this.numericUpDownLineBorder.Maximum = new decimal(new int[] {
             32,
             0,
@@ -706,14 +726,9 @@
          // numericUpDownLineHeight
          // 
          this.numericUpDownLineHeight.Location = new System.Drawing.Point(23, 42);
-         this.numericUpDownLineHeight.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.numericUpDownLineHeight.Margin = new System.Windows.Forms.Padding(2);
          this.numericUpDownLineHeight.Maximum = new decimal(new int[] {
             32,
-            0,
-            0,
-            0});
-         this.numericUpDownLineHeight.Minimum = new decimal(new int[] {
-            1,
             0,
             0,
             0});
@@ -731,7 +746,7 @@
          // 
          this.radioButtonLineBitmap.AutoSize = true;
          this.radioButtonLineBitmap.Location = new System.Drawing.Point(7, 109);
-         this.radioButtonLineBitmap.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.radioButtonLineBitmap.Margin = new System.Windows.Forms.Padding(2);
          this.radioButtonLineBitmap.Name = "radioButtonLineBitmap";
          this.radioButtonLineBitmap.Size = new System.Drawing.Size(159, 17);
          this.radioButtonLineBitmap.TabIndex = 1;
@@ -744,7 +759,7 @@
          this.radioButtonLineSolidColor.AutoSize = true;
          this.radioButtonLineSolidColor.Checked = true;
          this.radioButtonLineSolidColor.Location = new System.Drawing.Point(7, 17);
-         this.radioButtonLineSolidColor.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.radioButtonLineSolidColor.Margin = new System.Windows.Forms.Padding(2);
          this.radioButtonLineSolidColor.Name = "radioButtonLineSolidColor";
          this.radioButtonLineSolidColor.Size = new System.Drawing.Size(178, 17);
          this.radioButtonLineSolidColor.TabIndex = 0;
@@ -765,9 +780,10 @@
          // 
          // pictureBoxLineNight
          // 
+         this.pictureBoxLineNight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
          this.pictureBoxLineNight.ContextMenuStrip = this.contextMenuStripLine;
          this.pictureBoxLineNight.Location = new System.Drawing.Point(110, 401);
-         this.pictureBoxLineNight.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.pictureBoxLineNight.Margin = new System.Windows.Forms.Padding(2);
          this.pictureBoxLineNight.Name = "pictureBoxLineNight";
          this.pictureBoxLineNight.Size = new System.Drawing.Size(98, 26);
          this.pictureBoxLineNight.TabIndex = 26;
@@ -778,46 +794,54 @@
          this.contextMenuStripLine.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItemLineColor1,
             this.ToolStripMenuItemLineColor2,
+            this.ToolStripMenuItemLineColor1Transparent,
             this.ToolStripMenuItemLineColorSwap,
             this.ToolStripMenuItemLineCopy,
             this.ToolStripMenuItemLineInsert});
          this.contextMenuStripLine.Name = "contextMenuStripArea";
-         this.contextMenuStripLine.Size = new System.Drawing.Size(178, 114);
+         this.contextMenuStripLine.Size = new System.Drawing.Size(219, 136);
          this.contextMenuStripLine.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripLine_Opening);
          // 
          // ToolStripMenuItemLineColor1
          // 
          this.ToolStripMenuItemLineColor1.Name = "ToolStripMenuItemLineColor1";
-         this.ToolStripMenuItemLineColor1.Size = new System.Drawing.Size(177, 22);
+         this.ToolStripMenuItemLineColor1.Size = new System.Drawing.Size(218, 22);
          this.ToolStripMenuItemLineColor1.Text = "&Farbe 1 setzen";
          this.ToolStripMenuItemLineColor1.Click += new System.EventHandler(this.ToolStripMenuItemLineColor1_Click);
          // 
          // ToolStripMenuItemLineColor2
          // 
          this.ToolStripMenuItemLineColor2.Name = "ToolStripMenuItemLineColor2";
-         this.ToolStripMenuItemLineColor2.Size = new System.Drawing.Size(177, 22);
+         this.ToolStripMenuItemLineColor2.Size = new System.Drawing.Size(218, 22);
          this.ToolStripMenuItemLineColor2.Text = "F&arbe 2 setzen";
          this.ToolStripMenuItemLineColor2.Click += new System.EventHandler(this.ToolStripMenuItemLineColor2_Click);
+         // 
+         // ToolStripMenuItemLineColor1Transparent
+         // 
+         this.ToolStripMenuItemLineColor1Transparent.Name = "ToolStripMenuItemLineColor1Transparent";
+         this.ToolStripMenuItemLineColor1Transparent.Size = new System.Drawing.Size(218, 22);
+         this.ToolStripMenuItemLineColor1Transparent.Text = "Farbe 1 transparent setzen";
+         this.ToolStripMenuItemLineColor1Transparent.Click += new System.EventHandler(this.ToolStripMenuItemLineColor1Transparent_Click);
          // 
          // ToolStripMenuItemLineColorSwap
          // 
          this.ToolStripMenuItemLineColorSwap.Name = "ToolStripMenuItemLineColorSwap";
-         this.ToolStripMenuItemLineColorSwap.Size = new System.Drawing.Size(177, 22);
+         this.ToolStripMenuItemLineColorSwap.Size = new System.Drawing.Size(218, 22);
          this.ToolStripMenuItemLineColorSwap.Text = "Farben ver&tauschen";
          this.ToolStripMenuItemLineColorSwap.Click += new System.EventHandler(this.ToolStripMenuItemLineColorSwap_Click);
          // 
          // ToolStripMenuItemLineCopy
          // 
          this.ToolStripMenuItemLineCopy.Name = "ToolStripMenuItemLineCopy";
-         this.ToolStripMenuItemLineCopy.Size = new System.Drawing.Size(177, 22);
+         this.ToolStripMenuItemLineCopy.Size = new System.Drawing.Size(218, 22);
          this.ToolStripMenuItemLineCopy.Text = "Bild &kopieren";
          this.ToolStripMenuItemLineCopy.Click += new System.EventHandler(this.ToolStripMenuItemLineCopy_Click);
          // 
          // ToolStripMenuItemLineInsert
          // 
          this.ToolStripMenuItemLineInsert.Name = "ToolStripMenuItemLineInsert";
-         this.ToolStripMenuItemLineInsert.Size = new System.Drawing.Size(177, 22);
-         this.ToolStripMenuItemLineInsert.Text = "Bild &einfügen";
+         this.ToolStripMenuItemLineInsert.Size = new System.Drawing.Size(218, 22);
+         this.ToolStripMenuItemLineInsert.Text = "Bild &einfügen (32 x n, n<32)";
          this.ToolStripMenuItemLineInsert.Click += new System.EventHandler(this.ToolStripMenuItemLineInsert_Click);
          // 
          // label14
@@ -832,9 +856,10 @@
          // 
          // pictureBoxLineDay
          // 
+         this.pictureBoxLineDay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
          this.pictureBoxLineDay.ContextMenuStrip = this.contextMenuStripLine;
          this.pictureBoxLineDay.Location = new System.Drawing.Point(4, 401);
-         this.pictureBoxLineDay.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.pictureBoxLineDay.Margin = new System.Windows.Forms.Padding(2);
          this.pictureBoxLineDay.Name = "pictureBoxLineDay";
          this.pictureBoxLineDay.Size = new System.Drawing.Size(98, 26);
          this.pictureBoxLineDay.TabIndex = 24;
@@ -857,9 +882,9 @@
          this.listBoxLineTyp.FormattingEnabled = true;
          this.listBoxLineTyp.IntegralHeight = false;
          this.listBoxLineTyp.Location = new System.Drawing.Point(2, 28);
-         this.listBoxLineTyp.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.listBoxLineTyp.Margin = new System.Windows.Forms.Padding(2);
          this.listBoxLineTyp.Name = "listBoxLineTyp";
-         this.listBoxLineTyp.Size = new System.Drawing.Size(308, 121);
+         this.listBoxLineTyp.Size = new System.Drawing.Size(282, 121);
          this.listBoxLineTyp.TabIndex = 18;
          this.listBoxLineTyp.SelectedIndexChanged += new System.EventHandler(this.listBoxLineTyp_SelectedIndexChanged);
          // 
@@ -867,10 +892,10 @@
          // 
          this.tabPagePoint.Controls.Add(this.splitContainerPoint);
          this.tabPagePoint.Location = new System.Drawing.Point(4, 22);
-         this.tabPagePoint.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.tabPagePoint.Margin = new System.Windows.Forms.Padding(2);
          this.tabPagePoint.Name = "tabPagePoint";
-         this.tabPagePoint.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-         this.tabPagePoint.Size = new System.Drawing.Size(600, 592);
+         this.tabPagePoint.Padding = new System.Windows.Forms.Padding(2);
+         this.tabPagePoint.Size = new System.Drawing.Size(542, 583);
          this.tabPagePoint.TabIndex = 2;
          this.tabPagePoint.Text = "Punkte";
          this.tabPagePoint.UseVisualStyleBackColor = true;
@@ -879,7 +904,7 @@
          // 
          this.splitContainerPoint.Dock = System.Windows.Forms.DockStyle.Fill;
          this.splitContainerPoint.Location = new System.Drawing.Point(2, 2);
-         this.splitContainerPoint.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.splitContainerPoint.Margin = new System.Windows.Forms.Padding(2);
          this.splitContainerPoint.Name = "splitContainerPoint";
          // 
          // splitContainerPoint.Panel1
@@ -892,8 +917,8 @@
          this.splitContainerPoint.Panel2.Controls.Add(this.LabelPointDay);
          this.splitContainerPoint.Panel2.Controls.Add(this.pictureBoxPointNight);
          this.splitContainerPoint.Panel2.Controls.Add(this.pictureBoxPointDay);
-         this.splitContainerPoint.Size = new System.Drawing.Size(596, 588);
-         this.splitContainerPoint.SplitterDistance = 207;
+         this.splitContainerPoint.Size = new System.Drawing.Size(538, 579);
+         this.splitContainerPoint.SplitterDistance = 186;
          this.splitContainerPoint.SplitterWidth = 3;
          this.splitContainerPoint.TabIndex = 0;
          // 
@@ -909,11 +934,11 @@
          this.listViewPoint.FullRowSelect = true;
          this.listViewPoint.HideSelection = false;
          this.listViewPoint.Location = new System.Drawing.Point(0, 0);
-         this.listViewPoint.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.listViewPoint.Margin = new System.Windows.Forms.Padding(2);
          this.listViewPoint.MultiSelect = false;
          this.listViewPoint.Name = "listViewPoint";
          this.listViewPoint.ShowItemToolTips = true;
-         this.listViewPoint.Size = new System.Drawing.Size(207, 588);
+         this.listViewPoint.Size = new System.Drawing.Size(186, 579);
          this.listViewPoint.Sorting = System.Windows.Forms.SortOrder.Ascending;
          this.listViewPoint.TabIndex = 1;
          this.listViewPoint.UseCompatibleStateImageBehavior = false;
@@ -956,9 +981,9 @@
          // 
          this.pictureBoxPointNight.ContextMenuStrip = this.contextMenuStripPoint;
          this.pictureBoxPointNight.Location = new System.Drawing.Point(2, 173);
-         this.pictureBoxPointNight.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.pictureBoxPointNight.Margin = new System.Windows.Forms.Padding(2);
          this.pictureBoxPointNight.Name = "pictureBoxPointNight";
-         this.pictureBoxPointNight.Size = new System.Drawing.Size(105, 114);
+         this.pictureBoxPointNight.Size = new System.Drawing.Size(106, 106);
          this.pictureBoxPointNight.TabIndex = 23;
          this.pictureBoxPointNight.TabStop = false;
          this.pictureBoxPointNight.Click += new System.EventHandler(this.pictureBoxPoint_Click);
@@ -1007,9 +1032,9 @@
          this.pictureBoxPointDay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
          this.pictureBoxPointDay.ContextMenuStrip = this.contextMenuStripPoint;
          this.pictureBoxPointDay.Location = new System.Drawing.Point(2, 27);
-         this.pictureBoxPointDay.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.pictureBoxPointDay.Margin = new System.Windows.Forms.Padding(2);
          this.pictureBoxPointDay.Name = "pictureBoxPointDay";
-         this.pictureBoxPointDay.Size = new System.Drawing.Size(106, 114);
+         this.pictureBoxPointDay.Size = new System.Drawing.Size(106, 106);
          this.pictureBoxPointDay.TabIndex = 22;
          this.pictureBoxPointDay.TabStop = false;
          this.pictureBoxPointDay.Click += new System.EventHandler(this.pictureBoxPoint_Click);
@@ -1018,7 +1043,7 @@
          // 
          this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
          this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-         this.splitContainer1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.splitContainer1.Margin = new System.Windows.Forms.Padding(2);
          this.splitContainer1.Name = "splitContainer1";
          this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
          // 
@@ -1136,7 +1161,7 @@
          this.listBoxCustomColor.FormattingEnabled = true;
          this.listBoxCustomColor.IntegralHeight = false;
          this.listBoxCustomColor.Location = new System.Drawing.Point(1, 114);
-         this.listBoxCustomColor.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.listBoxCustomColor.Margin = new System.Windows.Forms.Padding(2);
          this.listBoxCustomColor.Name = "listBoxCustomColor";
          this.listBoxCustomColor.Size = new System.Drawing.Size(230, 64);
          this.listBoxCustomColor.TabIndex = 5;
@@ -1159,7 +1184,7 @@
          this.listBoxFont.FormattingEnabled = true;
          this.listBoxFont.IntegralHeight = false;
          this.listBoxFont.Location = new System.Drawing.Point(2, 15);
-         this.listBoxFont.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.listBoxFont.Margin = new System.Windows.Forms.Padding(2);
          this.listBoxFont.Name = "listBoxFont";
          this.listBoxFont.Size = new System.Drawing.Size(228, 79);
          this.listBoxFont.TabIndex = 3;
@@ -1188,12 +1213,14 @@
          this.menuStripMain.Size = new System.Drawing.Size(787, 24);
          this.menuStripMain.TabIndex = 0;
          this.menuStripMain.Text = "menuStrip1";
+         this.menuStripMain.MenuActivate += new System.EventHandler(this.menuStripMain_MenuActivate);
          // 
          // dateiToolStripMenuItem
          // 
          this.dateiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItemNew,
             this.ToolStripMenuItemOpen,
+            this.ToolStripMenuItemLastFiles,
             this.toolStripSeparator,
             this.ToolStripMenuItemSave,
             this.ToolStripMenuItemSave2,
@@ -1209,7 +1236,7 @@
          this.ToolStripMenuItemNew.ImageTransparentColor = System.Drawing.Color.Magenta;
          this.ToolStripMenuItemNew.Name = "ToolStripMenuItemNew";
          this.ToolStripMenuItemNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-         this.ToolStripMenuItemNew.Size = new System.Drawing.Size(168, 22);
+         this.ToolStripMenuItemNew.Size = new System.Drawing.Size(205, 22);
          this.ToolStripMenuItemNew.Text = "&Neu";
          this.ToolStripMenuItemNew.Click += new System.EventHandler(this.ToolStripMenuItemNew_Click);
          // 
@@ -1219,14 +1246,21 @@
          this.ToolStripMenuItemOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
          this.ToolStripMenuItemOpen.Name = "ToolStripMenuItemOpen";
          this.ToolStripMenuItemOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-         this.ToolStripMenuItemOpen.Size = new System.Drawing.Size(168, 22);
+         this.ToolStripMenuItemOpen.Size = new System.Drawing.Size(205, 22);
          this.ToolStripMenuItemOpen.Text = "Ö&ffnen";
          this.ToolStripMenuItemOpen.Click += new System.EventHandler(this.ToolStripMenuItemOpen_Click);
+         // 
+         // ToolStripMenuItemLastFiles
+         // 
+         this.ToolStripMenuItemLastFiles.Enabled = false;
+         this.ToolStripMenuItemLastFiles.Name = "ToolStripMenuItemLastFiles";
+         this.ToolStripMenuItemLastFiles.Size = new System.Drawing.Size(205, 22);
+         this.ToolStripMenuItemLastFiles.Text = "zuletzt geöffnete Dateien";
          // 
          // toolStripSeparator
          // 
          this.toolStripSeparator.Name = "toolStripSeparator";
-         this.toolStripSeparator.Size = new System.Drawing.Size(165, 6);
+         this.toolStripSeparator.Size = new System.Drawing.Size(202, 6);
          // 
          // ToolStripMenuItemSave
          // 
@@ -1234,26 +1268,26 @@
          this.ToolStripMenuItemSave.ImageTransparentColor = System.Drawing.Color.Magenta;
          this.ToolStripMenuItemSave.Name = "ToolStripMenuItemSave";
          this.ToolStripMenuItemSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-         this.ToolStripMenuItemSave.Size = new System.Drawing.Size(168, 22);
+         this.ToolStripMenuItemSave.Size = new System.Drawing.Size(205, 22);
          this.ToolStripMenuItemSave.Text = "&Speichern";
          this.ToolStripMenuItemSave.Click += new System.EventHandler(this.ToolStripMenuItemSave_Click);
          // 
          // ToolStripMenuItemSave2
          // 
          this.ToolStripMenuItemSave2.Name = "ToolStripMenuItemSave2";
-         this.ToolStripMenuItemSave2.Size = new System.Drawing.Size(168, 22);
+         this.ToolStripMenuItemSave2.Size = new System.Drawing.Size(205, 22);
          this.ToolStripMenuItemSave2.Text = "Speichern &unter";
          this.ToolStripMenuItemSave2.Click += new System.EventHandler(this.ToolStripMenuItemSave2_Click);
          // 
          // toolStripSeparator2
          // 
          this.toolStripSeparator2.Name = "toolStripSeparator2";
-         this.toolStripSeparator2.Size = new System.Drawing.Size(165, 6);
+         this.toolStripSeparator2.Size = new System.Drawing.Size(202, 6);
          // 
          // ToolStripMenuItemClose
          // 
          this.ToolStripMenuItemClose.Name = "ToolStripMenuItemClose";
-         this.ToolStripMenuItemClose.Size = new System.Drawing.Size(168, 22);
+         this.ToolStripMenuItemClose.Size = new System.Drawing.Size(205, 22);
          this.ToolStripMenuItemClose.Text = "&Beenden";
          this.ToolStripMenuItemClose.Click += new System.EventHandler(this.ToolStripMenuItemClose_Click);
          // 
@@ -1482,7 +1516,7 @@
          this.Controls.Add(this.toolStripContainer1);
          this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
          this.MainMenuStrip = this.menuStripMain;
-         this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.Margin = new System.Windows.Forms.Padding(2);
          this.Name = "FormMain";
          this.Text = "Form1";
          this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
@@ -1494,12 +1528,14 @@
          this.toolStripContainer1.PerformLayout();
          this.splitContainerMain.Panel1.ResumeLayout(false);
          this.splitContainerMain.Panel2.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).EndInit();
          this.splitContainerMain.ResumeLayout(false);
          this.tabControl1.ResumeLayout(false);
          this.tabPageArea.ResumeLayout(false);
          this.splitContainerArea.Panel1.ResumeLayout(false);
          this.splitContainerArea.Panel2.ResumeLayout(false);
          this.splitContainerArea.Panel2.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.splitContainerArea)).EndInit();
          this.splitContainerArea.ResumeLayout(false);
          this.contextMenuStripElement.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAreaDraworder)).EndInit();
@@ -1510,6 +1546,7 @@
          this.splitContainerLine.Panel1.ResumeLayout(false);
          this.splitContainerLine.Panel2.ResumeLayout(false);
          this.splitContainerLine.Panel2.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.splitContainerLine)).EndInit();
          this.splitContainerLine.ResumeLayout(false);
          this.groupBoxLine1.ResumeLayout(false);
          this.groupBoxLine1.PerformLayout();
@@ -1522,6 +1559,7 @@
          this.splitContainerPoint.Panel1.ResumeLayout(false);
          this.splitContainerPoint.Panel2.ResumeLayout(false);
          this.splitContainerPoint.Panel2.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.splitContainerPoint)).EndInit();
          this.splitContainerPoint.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPointNight)).EndInit();
          this.contextMenuStripPoint.ResumeLayout(false);
@@ -1530,6 +1568,7 @@
          this.splitContainer1.Panel1.PerformLayout();
          this.splitContainer1.Panel2.ResumeLayout(false);
          this.splitContainer1.Panel2.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
          this.splitContainer1.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMultiText)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCustomColor2)).EndInit();
@@ -1671,6 +1710,9 @@
       private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemPointSetTransp;
       private System.Windows.Forms.SplitContainer splitContainer1;
       private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemExtraGarmincolor;
+      private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemAreaColor1Transparent;
+      private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemLineColor1Transparent;
+      private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemLastFiles;
    }
 }
 
